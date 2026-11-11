@@ -16,3 +16,14 @@ Endpoints: `/clinics?town=Fernhill`, `/towns`, `/healthz`, `/metrics`.
 ## Releases
 
 Each release is a git tag (`v1.3`, `v1.4`, ...). The `prod` tag marks what is deployed; rolling back means moving `prod` to an earlier release.
+
+## Running the drill locally
+
+```
+ops/drill.sh up        # Mattermost, production, synthetic traffic, monitor, deployer
+git tag -f prod v1.4   # "release" the broken version -> alert in #incidents within ~15s
+git tag -f prod v1.3   # roll back -> recovery message
+ops/drill.sh down
+```
+
+Requires the Mattermost sandbox in `~/work/mm-test`. Nothing starts automatically at boot.

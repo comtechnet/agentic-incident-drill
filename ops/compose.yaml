@@ -1,12 +1,23 @@
-# "Production" for the drill: runs whichever release PROD_VERSION names.
-# Joins the Mattermost sandbox network (mm-pilot) so the monitor and relay can reach it.
+# "Production" for the drill. clinic-hours runs whichever release PROD_VERSION (ops/.env) names.
+# Joins the Mattermost sandbox network (mm-pilot) so the monitor can post alerts.
 name: drill-prod
 
 services:
   clinic-hours:
-    image: clinic-hours:${PROD_VERSION:?set PROD_VERSION, e.g. v1.3}
+    image: clinic-hours:${PROD_VERSION:?run ops/deploy.sh <tag> first}
     ports:
       - "127.0.0.1:8070:8070"
+    networks: [mm-pilot]
+    restart: "no"
+
+  loadgen:
+    build: ./loadgen
+    networks: [mm-pilot]
+    restart: "no"
+
+  monitor:
+    build: ./monitor
+    env_file: monitor.env          # MM_WEBHOOK_URL; created by ops/init-monitor.sh, gitignored
     networks: [mm-pilot]
     restart: "no"
 
