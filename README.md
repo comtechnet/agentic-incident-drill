@@ -21,9 +21,11 @@ Each release is a git tag (`v1.3`, `v1.4`, ...). The `prod` tag marks what is de
 
 ```
 ops/drill.sh up        # Mattermost, production, synthetic traffic, monitor, deployer
-git tag -f prod v1.4   # "release" the broken version -> alert in #incidents within ~15s
-git tag -f prod v1.3   # roll back -> recovery message
+git tag -f prod v1.4 && git push -f origin prod   # "release" the broken version -> alert within ~25s
+git tag -f prod v1.3 && git push -f origin prod   # roll back -> recovery message
 ops/drill.sh down
 ```
+
+The deployer follows the `prod` tag **on GitHub** (it fetches tags every 10s), so a tag moved only locally is reset to GitHub's copy.
 
 Requires the Mattermost sandbox in `~/work/mm-test`. Nothing starts automatically at boot.
