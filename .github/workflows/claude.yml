@@ -1,0 +1,45 @@
+# @claude in an issue or PR comment runs Claude Code against this repo.
+# Public repo safeguards:
+#  - job only runs when the commenter is the repo owner (explicit check below), on top of
+#    the action's default rule that the commenter must have write access;
+#  - allowed_non_write_users is deliberately NOT set;
+#  - uses the workflow's own GITHUB_TOKEN (scoped by `permissions:`), no GitHub App install.
+name: claude
+on:
+  issue_comment:
+    types: [created]
+  issues:
+    types: [opened]
+  pull_request_review_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  actions: read
+
+concurrency:
+  group: claude-${{ github.event.issue.number || github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  claude:
+    if: >-
+      github.actor == 'comtechnet' && (
+        (github.event_name == 'issues' && contains(github.event.issue.body, '@claude')) ||
+        (github.event_name != 'issues' && contains(github.event.comment.body, '@claude'))
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        # full history + tags so Claude can diff releases
+      - run: git fetch --force --tags
+      - uses: anthropics/claude-code-action@4fa93a88de49bbef68b10eb15aabedf28ca0e1ed  # v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          additional_permissions: |
+            actions: read

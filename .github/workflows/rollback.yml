@@ -1,0 +1,42 @@
+# Roll production back by moving the `prod` tag to an earlier release.
+# Gated by the `production` environment: a required reviewer must approve before it runs.
+# The local deployer follows the `prod` tag and redeploys within ~10s of the move.
+name: rollback
+run-name: rollback prod -> ${{ inputs.target }} (${{ inputs.reason }})
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Release tag to roll back to (e.g. v1.3)
+        required: true
+      reason:
+        description: Short reason, e.g. incident issue number
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prod-tag
+  cancel-in-progress: false
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate target and move prod
+        env:
+          TARGET: ${{ inputs.target }}
+        run: |
+          set -euo pipefail
+          git fetch --force --tags
+          [[ "$TARGET" =~ ^v[0-9]+\.[0-9]+$ ]] || { echo "::error::target must look like v1.3"; exit 1; }
+          git rev-parse -q --verify "refs/tags/$TARGET" >/dev/null || { echo "::error::no such release: $TARGET"; exit 1; }
+          from=$(git tag --points-at prod | grep -E '^v[0-9]+\.[0-9]+$' | sort -V | tail -1 || true)
+          git tag -f prod "$TARGET^{}"
+          git push -f origin refs/tags/prod
+          echo "### Rolled back: prod ${from:-?} -> $TARGET" >> "$GITHUB_STEP_SUMMARY"
