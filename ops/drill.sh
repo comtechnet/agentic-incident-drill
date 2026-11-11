@@ -15,6 +15,8 @@ case "${1:-status}" in
     git rev-parse -q --verify refs/tags/prod >/dev/null || git tag prod 'v1.3^{}'
     ops/deploy.sh "$(git tag --points-at prod | grep -E '^v[0-9]+\.[0-9]+$' | sort -V | tail -1)"
     docker compose -f ops/compose.yaml up -d --build loadgen monitor >/dev/null 2>&1
+    if [ -f ops/relay.env ]; then docker compose -f ops/compose.yaml up -d --build relay >/dev/null 2>&1
+    else echo "relay not configured yet: run ops/init-relay.sh"; fi
     [ -n "$(deployer_pid)" ] || { setsid nohup ops/deployer.sh >> ops/deployer.log 2>&1 < /dev/null & disown; }
     "$0" status ;;
   down)

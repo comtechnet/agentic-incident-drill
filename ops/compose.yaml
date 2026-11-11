@@ -21,6 +21,22 @@ services:
     networks: [mm-pilot]
     restart: "no"
 
+  relay:
+    # Mattermost <-> GitHub. Mattermost's outgoing webhook and /incident command call http://relay:8080.
+    build: ./relay
+    env_file:                      # Mattermost bot tokens + GitHub token; created by ops/init-relay.sh, gitignored
+      - path: relay.env
+        required: false
+    volumes:
+      - relay-state:/data          # which Mattermost thread maps to which GitHub issue
+    networks:
+      mm-pilot:
+        aliases: [relay]
+    restart: "no"
+
+volumes:
+  relay-state:
+
 networks:
   mm-pilot:
     name: mm-pilot_default
