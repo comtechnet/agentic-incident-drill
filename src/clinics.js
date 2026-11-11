@@ -17,6 +17,7 @@ export function toResult(clinic) {
     town: clinic.town,
     services: clinic.services,
     weekdays: Object.fromEntries(DAYS.map((d) => [d, formatHours(clinic.hours[d])])),
+    saturday: formatHours(clinic.hours.sat),
   };
 }
 

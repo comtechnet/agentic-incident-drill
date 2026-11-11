@@ -20,3 +20,8 @@ test('unknown town returns empty list', () => {
 test('five fictional towns', () => {
   assert.equal(towns().length, 5);
 });
+
+test('results include Saturday hours', () => {
+  const r = findByTown('Millbrook');
+  assert.deepEqual(r[0].saturday, { open: '09:00', close: '13:00' });
+});
