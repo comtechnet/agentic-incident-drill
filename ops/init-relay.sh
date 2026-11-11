@@ -18,7 +18,9 @@ PY
 read -rsp "Paste the GitHub fine-grained token for $repo (input hidden): " ghtok; echo
 [[ "$ghtok" == github_pat_* ]] || { echo "That doesn't look like a fine-grained token (should start with github_pat_)." >&2; exit 1; }
 code=$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $ghtok" "https://api.github.com/repos/$repo/issues?per_page=1")
-[ "$code" = 200 ] || { echo "Token check failed: GitHub returned HTTP $code for $repo." >&2; exit 1; }
+[ "$code" = 200 ] || { echo "Token check failed: GitHub returned HTTP $code for $repo. Received ${#ghtok} characters (a complete fine-grained token is usually 93)." >&2
+  [ "$code" = 401 ] && echo "401 = GitHub didn't recognise the token: usually an incomplete paste. Use GitHub's copy button and paste again." >&2
+  exit 1; }
 tz="${DISPLAY_TZ:-$(sed -n 's/^DISPLAY_TZ=//p' monitor.env 2>/dev/null)}"
 umask 077
 { echo "MM_URL=http://app:8065"; echo "$mm_vals"; echo "GH_REPO=$repo"; echo "GH_TOKEN=$ghtok"
