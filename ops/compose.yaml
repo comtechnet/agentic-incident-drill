@@ -17,7 +17,7 @@ services:
 
   monitor:
     build: ./monitor
-    env_file: monitor.env          # MM_WEBHOOK_URL; created by ops/init-monitor.sh, gitignored
+    env_file: monitor.env          # bot token, channel, display TZ; created by ops/init-monitor.sh, gitignored
     networks: [mm-pilot]
     restart: "no"
 
