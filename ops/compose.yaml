@@ -1,0 +1,16 @@
+# "Production" for the drill: runs whichever release PROD_VERSION names.
+# Joins the Mattermost sandbox network (mm-pilot) so the monitor and relay can reach it.
+name: drill-prod
+
+services:
+  clinic-hours:
+    image: clinic-hours:${PROD_VERSION:?set PROD_VERSION, e.g. v1.3}
+    ports:
+      - "127.0.0.1:8070:8070"
+    networks: [mm-pilot]
+    restart: "no"
+
+networks:
+  mm-pilot:
+    name: mm-pilot_default
+    external: true
