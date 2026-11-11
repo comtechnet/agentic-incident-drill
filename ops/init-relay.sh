@@ -40,4 +40,4 @@ umask 077
 { echo "MM_URL=http://app:8065"; echo "$mm_vals"; echo "GH_REPO=$repo"; echo "GH_TOKEN=$ghtok"
   echo "DISPLAY_TZ=${tz:-UTC}"; echo "ALLOWED_MM_USERS=pilotadmin"; } > relay.env
 unset ghtok
-echo "relay.env written (mode 600). Token verified against $repo."
+echo "relay.env written (mode 600). Received ${#ghtok} characters; token verified against $repo."

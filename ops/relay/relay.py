@@ -219,7 +219,7 @@ def clean_claude(body):
     lines = body.splitlines()
     if lines and CLAUDE_DONE.search(lines[0]):
         lines = lines[1:]
-    text = "\n".join(lines).strip()
+    text = re.sub(r"<img[^>]*>", "", "\n".join(lines)).strip()
     return text[3:].strip() if text.startswith("---") else text
 
 
@@ -252,8 +252,9 @@ def poll_incident(root_id, inc):
         if run and inc["phase"] == "rollback_requested":
             inc.update(phase="rollback_waiting", run_id=run["id"], run_url=run["html_url"])
             changed = True
-            mm_post(f":lock: Waiting for approval: [review the rollback in GitHub]({run['html_url']}) "
-                    "→ **Review deployments** → tick **production** → **Approve and deploy**.", root_id)
+            mm_post(f":lock: Waiting for your approval in GitHub. Open [{run['display_title']}]({run['html_url']}) "
+                    "(in the Actions list it's the run with the yellow clock) → **Review deployments** → "
+                    "tick **production** → add a comment → **Approve and deploy**.", root_id)
         if run and run["status"] == "completed":
             s, appr = gh("GET", f"/actions/runs/{run['id']}/approvals")
             a = (appr or [{}])[0]
@@ -285,11 +286,19 @@ def poll_incident(root_id, inc):
                     f"### Timeline ({TZ.key if hasattr(TZ, 'key') else 'UTC'})\n| Time | Event |\n|---|---|\n{rows}\n\n"
                     "@claude Write the postmortem for this incident following CLAUDE.md, using the alert, your "
                     "diagnosis and the timeline above. Open a pull request adding it under `lessons/`.")
-            gh("POST", f"/issues/{inc['issue']}/comments", {"body": body})
-            inc["phase"] = "postmortem"
-            changed = True
-            mm_post(f":memo: Recovery confirmed. I've added the timeline to [issue #{inc['issue']}]({inc['url']}) "
-                    "and asked Claude for the postmortem PR.", root_id)
+            inc["timeline"].pop()   # re-added on success; avoids duplicates across retries
+            cs, _ = gh("POST", f"/issues/{inc['issue']}/comments", {"body": body})
+            if cs == 201:
+                inc["timeline"].append(["Monitor confirmed recovery", t])
+                inc["phase"] = "postmortem"
+                changed = True
+                mm_post(f":memo: Recovery confirmed. I've added the timeline to [issue #{inc['issue']}]({inc['url']}) "
+                        "and asked Claude for the postmortem PR.", root_id)
+            elif not inc.get("warned_comment"):
+                inc["warned_comment"] = True
+                changed = True
+                mm_post(f":warning: Recovery confirmed, but GitHub refused my comment on issue #{inc['issue']} "
+                        f"(HTTP {cs}), so Claude hasn't been asked for the postmortem yet. I'll keep retrying.", root_id)
     return changed
 
 
