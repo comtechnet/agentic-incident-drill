@@ -1,0 +1,321 @@
+{
+ "county": "Larkspur County (fictional)",
+ "clinics": [
+  {
+   "id": "lc-01",
+   "name": "Fernhill Community Health Center",
+   "town": "Fernhill",
+   "services": [
+    "primary care"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00"
+   }
+  },
+  {
+   "id": "lc-02",
+   "name": "Millbrook Family Clinic",
+   "town": "Millbrook",
+   "services": [
+    "primary care"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-03",
+   "name": "Cedar Falls Immunization Clinic",
+   "town": "Cedar Falls",
+   "services": [
+    "vaccines"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-04",
+   "name": "Ashby WIC Office",
+   "town": "Ashby",
+   "services": [
+    "nutrition"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-05",
+   "name": "Quarry Point Community Health Center",
+   "town": "Quarry Point",
+   "services": [
+    "primary care"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-06",
+   "name": "Fernhill Family Clinic",
+   "town": "Fernhill",
+   "services": [
+    "primary care"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-07",
+   "name": "Millbrook Immunization Clinic",
+   "town": "Millbrook",
+   "services": [
+    "vaccines"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-08",
+   "name": "Cedar Falls WIC Office",
+   "town": "Cedar Falls",
+   "services": [
+    "nutrition"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-09",
+   "name": "Ashby Community Health Center",
+   "town": "Ashby",
+   "services": [
+    "primary care"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00"
+   }
+  },
+  {
+   "id": "lc-10",
+   "name": "Quarry Point Family Clinic",
+   "town": "Quarry Point",
+   "services": [
+    "primary care"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-11",
+   "name": "Fernhill Immunization Clinic",
+   "town": "Fernhill",
+   "services": [
+    "vaccines"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00"
+   }
+  },
+  {
+   "id": "lc-12",
+   "name": "Millbrook WIC Office",
+   "town": "Millbrook",
+   "services": [
+    "nutrition"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-13",
+   "name": "Cedar Falls Community Health Center",
+   "town": "Cedar Falls",
+   "services": [
+    "primary care"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-14",
+   "name": "Ashby Family Clinic",
+   "town": "Ashby",
+   "services": [
+    "primary care"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-15",
+   "name": "Quarry Point Immunization Clinic",
+   "town": "Quarry Point",
+   "services": [
+    "vaccines"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-16",
+   "name": "Fernhill WIC Office",
+   "town": "Fernhill",
+   "services": [
+    "nutrition"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-17",
+   "name": "Millbrook Community Health Center",
+   "town": "Millbrook",
+   "services": [
+    "primary care"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-18",
+   "name": "Cedar Falls Family Clinic",
+   "town": "Cedar Falls",
+   "services": [
+    "primary care"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  },
+  {
+   "id": "lc-19",
+   "name": "Ashby Immunization Clinic",
+   "town": "Ashby",
+   "services": [
+    "vaccines"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00"
+   }
+  },
+  {
+   "id": "lc-20",
+   "name": "Quarry Point WIC Office",
+   "town": "Quarry Point",
+   "services": [
+    "nutrition"
+   ],
+   "hours": {
+    "mon": "08:00-17:00",
+    "tue": "08:00-17:00",
+    "wed": "08:00-19:00",
+    "thu": "08:00-17:00",
+    "fri": "08:00-16:00",
+    "sat": "09:00-13:00"
+   }
+  }
+ ]
+}
