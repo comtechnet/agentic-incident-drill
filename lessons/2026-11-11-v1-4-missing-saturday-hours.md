@@ -21,11 +21,15 @@ human approval, and the monitor confirmed recovery.
 | 11:33:43 AM EST | Diagnosis requested by pilotadmin |
 | 11:34:49 AM EST | Claude posted diagnosis: likely cause `src/clinics.js:20`, recommend rollback to `v1.3` |
 | 11:35:01 AM EST | Go given by pilotadmin in Mattermost |
-| 11:46:35 AM EST | Rollback approved by comtechnet in the `production` environment; `prod` moved to `v1.3` |
+| about 11:46:17 AM EST | Rollback approved by comtechnet in the `production` environment |
+| 11:46:22 AM EST | Rollback workflow finished; `prod` moved to `v1.3` |
+| 11:46:26 AM EST | Deployer switched production to `v1.3` |
 | 11:46:35 AM EST | Monitor confirmed recovery |
 
-Roughly 13 minutes passed between the alert and recovery. About 11.5 of those were between the
-"go" and the approval of the rollback in the `production` environment.
+Roughly 13 minutes passed between the alert and recovery. About 11 of those were between the
+"go" and the approval of the rollback in the `production` environment. The delay was not a
+slow decision: the approver was not signed in to GitHub, and the approval link posted in
+Mattermost did not make clear which run to open. Once found, the approval took seconds.
 
 ## Impact
 
@@ -64,7 +68,8 @@ and did not exercise the missing-data case.
 
 - The bug shipped because the tests only covered data that had the new field.
 - Nothing in the release process checks new code against all records in `data/clinics.json`.
-- Most of the time to recovery was waiting for approval, not diagnosing.
+- Most of the time to recovery was waiting for approval, not diagnosing. The approver had to
+  sign in to GitHub and then work out which run the approval link referred to.
 - The diagnosis only checked two towns' data (Fernhill and Ashby) by hand. That was enough for
   the decision here, but it was not a full check of every town.
 
