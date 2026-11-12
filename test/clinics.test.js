@@ -7,6 +7,12 @@ test('formatHours splits a range', () => {
   assert.deepEqual(formatHours('08:00-17:00'), { open: '08:00', close: '17:00' });
 });
 
+test('formatHours returns null for missing hours', () => {
+  assert.equal(formatHours(undefined), null);
+  assert.equal(formatHours(null), null);
+  assert.equal(formatHours(''), null);
+});
+
 test('findByTown is case-insensitive and returns weekday hours', () => {
   const r = findByTown('millbrook');
   assert.ok(r.length > 0);
