@@ -43,7 +43,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           additional_permissions: |
             actions: read
-          # Let Claude open the postmortem PR itself (CLAUDE.md still forbids pushing to main,
+          # Let Claude open its PRs itself and run the tests (CLAUDE.md still forbids pushing to main,
           # rolling back or moving tags). Needs repo setting: Actions > General >
           # "Allow GitHub Actions to create and approve pull requests".
-          claude_args: --allowedTools "Bash(gh pr create:*),Bash(gh pr view:*)"
+          claude_args: --allowedTools "Bash(gh pr create:*),Bash(gh pr view:*),Bash(npm test),Bash(npm test:*),Bash(node --test:*)"
