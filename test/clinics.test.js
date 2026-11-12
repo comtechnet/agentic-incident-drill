@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { findByTown, formatHours, towns } from '../src/clinics.js';
+import { readFileSync } from 'node:fs';
+import { findByTown, formatHours, toResult, towns } from '../src/clinics.js';
 
 test('formatHours splits a range', () => {
   assert.deepEqual(formatHours('08:00-17:00'), { open: '08:00', close: '17:00' });
@@ -24,4 +25,19 @@ test('five fictional towns', () => {
 test('results include Saturday hours', () => {
   const r = findByTown('Millbrook');
   assert.deepEqual(r[0].saturday, { open: '09:00', close: '13:00' });
+});
+
+test('town with a clinic that has no Saturday hours succeeds', () => {
+  const r = findByTown('Fernhill');
+  assert.ok(r.length > 0);
+  assert.ok(r.some((c) => c.saturday === null));
+});
+
+test('toResult works for every clinic in data/clinics.json', () => {
+  const { clinics } = JSON.parse(
+    readFileSync(new URL('../data/clinics.json', import.meta.url), 'utf8'),
+  );
+  for (const c of clinics) {
+    assert.doesNotThrow(() => toResult(c), `clinic ${c.id}`);
+  }
 });
