@@ -30,6 +30,7 @@ MONITOR_USER = os.environ["MM_MONITOR_USER_ID"]
 HOOK_TOKENS = {os.environ["MM_OUTGOING_TOKEN"], os.environ["MM_SLASH_TOKEN"]}
 ALLOWED_USERS = set(os.environ.get("ALLOWED_MM_USERS", "pilotadmin").split(","))
 GH = "https://api.github.com"
+GH_WEB = "https://github.com"
 GH_REPO = os.environ["GH_REPO"]
 GH_TOKEN = os.environ["GH_TOKEN"]
 SERVICE = os.environ.get("SERVICE_URL", "http://clinic-hours:8070")
@@ -241,9 +242,29 @@ def poll_incident(root_id, inc):
             mm_post(f"Reply **Go** in this thread to request a rollback to `{inc['target']}` "
                     "(it still needs approval in GitHub).", root_id)
         elif inc["phase"] == "postmortem":
-            inc["phase"] = "done"
+            inc["phase"] = "awaiting_pr"
             inc["timeline"].append(["Claude posted postmortem", now_iso()])
-            mm_post(":white_check_mark: Drill complete. Review the postmortem PR in GitHub.", root_id)
+            m = re.search(r"/tree/(claude/issue-\d+-[\w.-]+)", c["body"])
+            if m:
+                inc["pm_branch"] = m.group(1)
+    # 1b) Postmortem: only call it done once a pull request really exists
+    if inc["phase"] == "awaiting_pr":
+        s, pulls = gh("GET", "/pulls?state=all&per_page=50")
+        pr = next((p for p in pulls or [] if p["head"]["ref"].startswith(f"claude/issue-{inc['issue']}-")), None)
+        if pr:
+            inc.update(phase="done", pr=pr["number"])
+            inc["timeline"].append([f"Postmortem PR #{pr['number']} opened", now_iso()])
+            changed = True
+            mm_post(f":white_check_mark: Drill complete. Postmortem: [PR #{pr['number']}: {pr['title']}]({pr['html_url']}). "
+                    "Review it and merge it in GitHub.", root_id)
+        elif not inc.get("warned_pr"):
+            inc["warned_pr"] = True
+            changed = True
+            br = inc.get("pm_branch")
+            how = (f"[Open the PR yourself]({GH_WEB}/{GH_REPO}/compare/main...{br}?expand=1) from branch `{br}`."
+                   if br else "Check Claude's comment on the issue for the branch.")
+            mm_post(f":warning: Claude wrote the postmortem but no pull request exists yet. {how} "
+                    "I'll post the PR link here once it's open.", root_id)
     # 2) Rollback run
     if inc["phase"] in ("rollback_requested", "rollback_waiting"):
         s, runs = gh("GET", "/actions/workflows/rollback.yml/runs?event=workflow_dispatch&per_page=10")
