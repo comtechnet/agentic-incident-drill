@@ -6,6 +6,7 @@ const { clinics } = JSON.parse(
 );
 
 export function formatHours(range) {
+  if (range === undefined || range === null || range === '') return null;
   const [open, close] = range.split('-');
   return { open, close };
 }
@@ -17,7 +18,7 @@ export function toResult(clinic) {
     town: clinic.town,
     services: clinic.services,
     weekdays: Object.fromEntries(DAYS.map((d) => [d, formatHours(clinic.hours[d])])),
-    saturday: clinic.hours.sat ? formatHours(clinic.hours.sat) : null,
+    saturday: formatHours(clinic.hours.sat),
   };
 }
 
