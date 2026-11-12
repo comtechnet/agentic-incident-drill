@@ -4,3 +4,4 @@ ops/.env
 ops/monitor.env
 ops/deployer.log
 ops/relay.env
+__pycache__/
