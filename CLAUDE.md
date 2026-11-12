@@ -18,7 +18,15 @@ data or anything resembling PHI, even as examples.
    not move or create tags; a human approves rollbacks.
 5. Keep it short. Plain language; the readers are not all engineers.
 
+## When asked to change code
+1. Work on a new branch; never push to `main`.
+2. Run `npm test` and report the result (pass/fail counts) in the PR description.
+3. If the issue names the release the change is for (e.g. "v1.5"), set `version` in
+   `package.json` to match (`1.5.0`) in the same PR. Do not create or move tags.
+4. Open the pull request yourself with `gh pr create --base main` after pushing, and link
+   it in your reply. Only if that command fails, post a "Create PR" link instead and say why.
+
 ## When asked for a postmortem
 Open a pull request adding `lessons/YYYY-MM-DD-<slug>.md` with: summary, timeline, impact,
 root cause, what went well, what didn't, and follow-up actions (e.g. a test that would have
-caught it). Never push to `main` directly.
+caught it). Never push to `main` directly. Open the PR with `gh pr create --base main`.
